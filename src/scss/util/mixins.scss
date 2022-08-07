@@ -1,0 +1,28 @@
+@mixin breakpoints-up($size) {
+  @media (min-width: $size) {
+    @content;
+  }
+}
+
+@mixin breakpoints-down($size) {
+  @media (max-width: $size) {
+    @content;
+  }
+}
+
+@mixin displayFlexCenter() {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin smallDice() {
+  width: 5.5vh;
+  height: 5.5vh;
+}
+
+@mixin bigDice() {
+  width: 8vh;
+  height: 8vh;
+}
+

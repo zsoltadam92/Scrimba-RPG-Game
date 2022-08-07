@@ -1,0 +1,107 @@
+@use '../util' as *;
+
+
+.panel {
+  border-radius: 10px;
+  @include smallDice();
+  perspective: 400px;
+  // margin: 4px;
+  
+  
+  @include breakpoints_up(rem(550)) {
+    @include bigDice();
+    perspective: 620px;
+  }
+}
+
+.dice {
+  @include smallDice();
+  position: relative;
+  transform-style: preserve-3d;
+  transform: translateZ(-20px) rotateY(0deg) rotateX(90deg);
+  transition: transform 1s;
+  
+    
+  @include breakpoints_up(rem(550)) {
+    @include bigDice();
+  }
+
+  &__side {
+    @include smallDice();
+    position: absolute;
+    background-color: green;
+    border-radius: 5px;
+    line-height: 5.5vh;
+    
+    @include breakpoints_up(rem(550)) {
+      @include bigDice();
+      line-height: 8.5vh;
+    }
+
+    &--1 {
+      @include displayFlexCenter();
+      transform: rotateX(-90deg) translateZ(2.75vh);
+      z-index: 1;
+
+      @include breakpoints_up(rem(550)) {
+        transform: rotateX(-90deg) translateZ(4vh);
+      }
+    }
+    &--2 {
+      @include displayFlexCenter();
+      transform: rotateY(180deg) translateZ(2.75vh);
+      z-index: 2;
+
+      @include breakpoints_up(rem(550)) {
+        transform: rotateY(180deg) translateZ(4vh);
+      }
+    }
+    &--3 {
+      @include displayFlexCenter();
+      transform: rotateY(90deg) translateZ(2.75vh);
+      z-index: 3;
+
+      @include breakpoints_up(rem(550)) {
+        transform: rotateY(90deg) translateZ(4vh);
+      }
+    }
+    &--4 {
+      @include displayFlexCenter();
+      transform: rotateY(0deg) translateZ(2.75vh);
+      z-index: 4;
+
+      @include breakpoints_up(rem(550)) {
+        transform: rotateY(0deg) translateZ(4vh);
+      }
+    }
+    &--5 {
+      @include displayFlexCenter();
+      transform: rotateY(-90deg) translateZ(2.75vh);
+      z-index: 5;
+
+      @include breakpoints_up(rem(550)) {
+        transform: rotateY(-90deg) translateZ(4vh);
+      }
+    }
+    &--6 {
+      @include displayFlexCenter();
+      transform: rotateX(90deg) translateZ(2.75vh);
+      z-index: 6;
+
+      @include breakpoints_up(rem(550)) {
+        transform: rotateX(90deg) translateZ(4vh);
+      }
+    }
+  }
+  
+  &__num {
+    color: white;
+    font-size: 2rem;
+
+    @for $i from 2 through 5 {
+      &--#{$i} {
+        transform: rotate(180deg);
+      }
+    }
+  }
+}
