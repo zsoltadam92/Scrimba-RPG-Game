@@ -14,6 +14,7 @@
   }
 }
 
+
 .dice {
   @include smallDice();
   position: relative;
@@ -104,4 +105,11 @@
       }
     }
   }
+}
+
+.dice__side-monster {
+  background-color: red;
+}
+.dice__side-hero {
+  background-color: blue;
 }

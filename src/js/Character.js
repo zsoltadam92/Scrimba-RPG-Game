@@ -1,37 +1,82 @@
-import { calcPercent } from "./util.js"
+import { calcPercent,getDiceHtml, getDiceRollArray } from "./util.js"
 
 
 class Character {
   constructor(data) {
     Object.assign(this,data)
     this.maxHealth = this.health
+    this.diceHtml = getDiceHtml(this.diceCount,this.type)
   }
 
-  setDiceHtml() {
-    return `
-    <div class="panel">
-      <div class="dice">
-        <div class="dice__side dice__side--1">
-          <p class="dice__num dice__num--1">1</p>
-        </div>
-        <div class="dice__side dice__side--2">
-          <p class="dice__num dice__num--2">2</p>
-        </div>
-        <div class="dice__side dice__side--3">
-          <p class="dice__num dice__num--3">3</p>
-        </div>
-        <div class="dice__side dice__side--4">
-          <p class="dice__num dice__num--4" >4</p>
-        </div>
-        <div class="dice__side dice__side--5">
-          <p class="dice__num dice__num--5">5</p>
-        </div>
-        <div class="dice__side dice__side--6">
-          <p class="dice__num dice__num--6">6</p>
-        </div>
-      </div>
-    </div>
-    `
+  setHeroDiceHtml() {
+    
+    const diceHero = document.querySelectorAll('.dice-hero')
+    
+    this.currentDiceScore = getDiceRollArray(this.diceCount)
+    console.log(this.currentDiceScore)
+    
+    diceHero.forEach((die,index) => {
+
+        die.style.transform = `translateZ(-100px) rotateY(-45deg) rotateX(-45deg)`
+        die.style.transitionDuration = '600ms'
+      
+        setTimeout(() =>{
+        let randomNumber = this.currentDiceScore[index];
+      let x = "";
+      let y = "";
+      switch (randomNumber) {
+        case 1:
+          x = 720;
+          y = 810;
+          break;
+        case 6:
+          x = 720;
+          y = 990;
+          break;
+        default:
+          x = 720 + (6 - randomNumber) * 90;
+          y = 900;
+          break;
+      }
+    
+      die.style.transform = `translateZ(-100px) rotateY(${x}deg) rotateX(${y}deg)`
+     }, 400)
+      })  
+  }
+  setMonsterDiceHtml() {
+    
+    const diceMonster = document.querySelectorAll('.dice-monster')
+
+    this.currentDiceScore = getDiceRollArray(this.diceCount)
+    console.log(this.currentDiceScore)
+    
+    diceMonster.forEach((die,index) => {
+
+        die.style.transform = `translateZ(-100px) rotateY(-45deg) rotateX(-45deg)`
+        die.style.transitionDuration = '600ms'
+      
+        setTimeout(() =>{
+        let randomNumber = this.currentDiceScore[index];
+      let x = "";
+      let y = "";
+      switch (randomNumber) {
+        case 1:
+          x = 720;
+          y = 810;
+          break;
+        case 6:
+          x = 720;
+          y = 990;
+          break;
+        default:
+          x = 720 + (6 - randomNumber) * 90;
+          y = 900;
+          break;
+      }
+    
+      die.style.transform = `translateZ(-100px) rotateY(${x}deg) rotateX(${y}deg)`
+     }, 400)
+      })  
   }
 
   getHealthBarHtml() {
@@ -46,9 +91,9 @@ class Character {
   }
 
   getCharacterHtml() {
-    const {name, avatar, health} = this
+    const {name, avatar, health,diceHtml} = this
     const healthBar = this.getHealthBarHtml()
-    const diceHtml = this.setDiceHtml()
+    // const diceHtml =  getDiceHtml(this.diceCount)
 
     return `
     <div class="character__card">

@@ -9,28 +9,32 @@ const characterData = {
     avatar: wizardImg,
     health: 50,
     diceCount: 3,
-    currentDiceScore: []
+    currentDiceScore: [],
+    type: 'hero'
   },
   orc: {
     name: "Orc",
     avatar: orcImg,
     health: 30,
     diceCount: 1,
-    currentDiceScore: []
+    currentDiceScore: [],
+    type: 'monster'
   },
   demon: {
     name: "Demon",
     avatar: demonImg,
     health: 25,
     diceCount: 2,
-    currentDiceScore: []
+    currentDiceScore: [],
+    type: 'monster'
   },
   goblin: {
     name: "Goblin",
     avatar: goblinImg,
     health: 20,
     diceCount: 3,
-    currentDiceScore: []
+    currentDiceScore: [],
+    type: 'monster'
   }
 }
 

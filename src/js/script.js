@@ -3,6 +3,13 @@ import '../scss/style.scss'
 import characterData from "./data.js";
 import Character from "./Character.js";
 
+
+document.getElementById('attackButton').addEventListener('click', () => {
+  wizard.setHeroDiceHtml()
+  orc.setMonsterDiceHtml()
+})
+
+
 function render() {
   document.getElementById('hero').innerHTML = wizard.getCharacterHtml()
   document.getElementById('monster').innerHTML = orc.getCharacterHtml()
@@ -22,9 +29,9 @@ render()
 
 
 
-// const dice = document.querySelectorAll('.dice')
 
 // document.getElementById('attackButton').addEventListener('click', () => {
+  // const dice = document.querySelectorAll('.dice')
 
 //   dice.forEach(die => {
 //     die.style.transform = `translateZ(-100px) rotateY(-45deg) rotateX(-45deg)`
