@@ -2,15 +2,26 @@ import '../scss/style.scss'
 
 import characterData from "./data.js";
 import Character from "./Character.js";
+import { getDiceHtml, rollDice } from './util';
 
 
 document.getElementById('attackButton').addEventListener('click', () => {
-  wizard.setHeroDiceHtml()
-  orc.setMonsterDiceHtml()
+  wizard.resetDiceHtml()
+  orc.resetDiceHtml()
+  render()
+  wizard.setDiceHtml()
+  orc.setDiceHtml()
+  wizard.takeDamage(orc.currentDiceScore)
+  orc.takeDamage(wizard.currentDiceScore)
+  setTimeout(() => {
+    render()
+  },1000)
+  
 })
 
 
 function render() {
+  
   document.getElementById('hero').innerHTML = wizard.getCharacterHtml()
   document.getElementById('monster').innerHTML = orc.getCharacterHtml()
 }
@@ -18,8 +29,10 @@ function render() {
 const wizard = new Character(characterData.hero)
 const orc = new Character(characterData.orc)
 
+document.getElementById('hero').innerHTML = wizard.getCharacterHtml()
+document.getElementById('monster').innerHTML = orc.getCharacterHtml()
 
-render()
+// render()
 
 
 

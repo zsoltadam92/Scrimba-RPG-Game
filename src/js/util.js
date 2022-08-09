@@ -2,37 +2,58 @@ function calcPercent(remainingHealth, maximumHealth) {
   return (remainingHealth * 100)  / maximumHealth 
 }
 
-function getDiceRollArray(diceCount) {
-  return new Array(diceCount).fill(0).map(() => Math.floor(Math.random() * 6 + 1))
-}
-
 function getDiceHtml(diceCount, type) {
   return new Array(diceCount).fill(0).map(() =>{
     return    `
     <div class="panel">
       <div class="dice  ${type === 'monster'? 'dice-monster' : 'dice-hero'}">
-        <div class="dice__side dice__side--1 ${type === 'monster'? 'dice__side-monster' : 'dice__side-hero'}">
-          <p class="dice__num dice__num--1">1</p>
-        </div>
-        <div class="dice__side dice__side--2 ${type === 'monster'? 'dice__side-monster' : 'dice__side-hero'}">
-          <p class="dice__num dice__num--2">2</p>
-        </div>
-        <div class="dice__side dice__side--3 ${type === 'monster'? 'dice__side-monster' : 'dice__side-hero'}">
-          <p class="dice__num dice__num--3">3</p>
-        </div>
-        <div class="dice__side dice__side--4 ${type === 'monster'? 'dice__side-monster' : 'dice__side-hero'}">
-          <p class="dice__num dice__num--4" >4</p>
-        </div>
-        <div class="dice__side dice__side--5 ${type === 'monster'? 'dice__side-monster' : 'dice__side-hero'}">
-          <p class="dice__num dice__num--5">5</p>
-        </div>
-        <div class="dice__side dice__side--6 ${type === 'monster'? 'dice__side-monster' : 'dice__side-hero'}">
-          <p class="dice__num dice__num--6">6</p>
-        </div>
+        ${new Array(6).fill(0).map((_,index) => {
+          return ` <div class="dice__side dice__side--${index + 1} ${type === 'monster'? 'dice__side-monster' : 'dice__side-hero'}">
+          <p class="dice__num dice__num--${index + 1}">${index + 1}</p>
+        </div> 
+        `
+        }).join("")}
       </div>
     </div>
     `
   }).join("")
 }
 
-export {calcPercent,getDiceHtml,getDiceRollArray}
+function getDiceRollArray(diceCount) {
+  return new Array(diceCount).fill(0).map(() => Math.floor(Math.random() * 6 + 1))
+}
+
+function rollDice(diceType,currentDiceScore) {
+  diceType.forEach((die,index) => {
+
+
+    die.style.transform = `translateZ(-100px) rotateY(-45deg) rotateX(-45deg)`
+    die.style.transitionDuration = '600ms'
+    
+    setTimeout(() =>{
+      let randomNumber = currentDiceScore[index];
+      let x = "";
+      let y = "";
+      switch (randomNumber) {
+        case 1:
+          x = 720;
+          y = 810;
+          break;
+        case 6:
+          x = 720;
+          y = 990;
+          break;
+          default:
+            x = 720 + (6 - randomNumber) * 90;
+          y = 900;
+          break;
+      }
+
+      die.style.transform = `translateZ(-100px) rotateY(${x}deg) rotateX(${y}deg)`
+    }, 400)
+  })  
+}
+
+
+
+export {calcPercent,getDiceHtml,getDiceRollArray, rollDice,}
