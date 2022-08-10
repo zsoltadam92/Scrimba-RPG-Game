@@ -2,74 +2,64 @@ import '../scss/style.scss'
 
 import characterData from "./data.js";
 import Character from "./Character.js";
-import { getDiceHtml, rollDice } from './util';
+
+
+let isWaiting = false
+let monsterArray = ["orc","demon","goblin"]
+
+function getNewMonster() {
+  const nextMonsterData = characterData[monsterArray.shift()]
+  return nextMonsterData ? new Character(nextMonsterData) : {}
+}
+
 
 
 document.getElementById('attackButton').addEventListener('click', () => {
-  wizard.resetDiceHtml()
-  orc.resetDiceHtml()
-  render()
-  wizard.setDiceHtml()
-  orc.setDiceHtml()
-  wizard.takeDamage(orc.currentDiceScore)
-  orc.takeDamage(wizard.currentDiceScore)
-  setTimeout(() => {
+  if(!isWaiting) {
+    isWaiting = true
+    wizard.resetDiceHtml()
+    monster.resetDiceHtml()
     render()
-  },1000)
-  
+    wizard.setDiceHtml()
+    monster.setDiceHtml()
+    wizard.takeDamage(monster.currentDiceScore)
+    monster.takeDamage(wizard.currentDiceScore)
+    setTimeout(() => {
+      render()
+      isWaiting = false
+    },1000)
+
+    if(wizard.dead) {
+      setTimeout(() => {
+        isWaiting = true
+        document.getElementById('hero').innerHTML = "Wizard is dead"
+      },1500)
+    } 
+    else if(monster.dead) {
+      isWaiting = true
+      setTimeout(() => {
+        if(monsterArray.length > 0) {
+          monster = getNewMonster()
+          render()
+        }
+        else {
+          isWaiting = true
+          document.getElementById('monster').innerHTML = "Monster is dead"
+        }
+      },1500)
+    }
+  }
 })
 
 
 function render() {
   
   document.getElementById('hero').innerHTML = wizard.getCharacterHtml()
-  document.getElementById('monster').innerHTML = orc.getCharacterHtml()
+  document.getElementById('monster').innerHTML = monster.getCharacterHtml()
 }
 
 const wizard = new Character(characterData.hero)
-const orc = new Character(characterData.orc)
+let monster = getNewMonster()
 
-document.getElementById('hero').innerHTML = wizard.getCharacterHtml()
-document.getElementById('monster').innerHTML = orc.getCharacterHtml()
+render()
 
-// render()
-
-
-
-
-
-
-
-
-
-
-// document.getElementById('attackButton').addEventListener('click', () => {
-  // const dice = document.querySelectorAll('.dice')
-
-//   dice.forEach(die => {
-//     die.style.transform = `translateZ(-100px) rotateY(-45deg) rotateX(-45deg)`
-//   die.style.transitionDuration = '600ms'
-  
-//   setTimeout(() =>{
-//    let randomNumber = Math.floor(Math.random() * 6 + 1);
-//   let x = "";
-//   let y = "";
-//   switch (randomNumber) {
-//     case 1:
-//       x = 720;
-//       y = 810;
-//       break;
-//     case 6:
-//       x = 720;
-//       y = 990;
-//       break;
-//     default:
-//       x = 720 + (6 - randomNumber) * 90;
-//       y = 900;
-//       break;
-//   }
-
-//   die.style.transform = `translateZ(-100px) rotateY(${x}deg) rotateX(${y}deg)`
-//  }, 400)
-//   })  
-// })

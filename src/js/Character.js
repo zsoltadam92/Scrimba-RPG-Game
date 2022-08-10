@@ -13,12 +13,10 @@ class Character {
     
   }
   
-  setDiceHtml(type) {
+  setDiceHtml() {
     this.currentDiceScore = getDiceRollArray(this.diceCount)
-    console.log(this.currentDiceScore)
     
     rollDice(document.querySelectorAll(`.dice-${this.type}`), this.currentDiceScore,this.type)
-    
     
     this.diceHtml = this.currentDiceScore.map((num) =>  {
       let x = "";
@@ -33,29 +31,27 @@ class Character {
         y = 990;
         break;
         default:
-          x = 720 + (6 - num) * 90;
+        x = 720 + (6 - num) * 90;
         y = 900;
         break;
     }
-     return    `<div class="panel">
+      return    `<div class="panel">
     <div class="dice  ${this.type === 'monster'? 'dice-monster' : 'dice-hero'}" style="transform: translateZ(-100px) rotateY(${x}deg) rotateX(${y}deg)"; >
-      ${new Array(6).fill(0).map(() => {
-        return ` <div class="dice__side dice__side--${num} ${this.type === 'monster'? 'dice__side-monster' : 'dice__side-hero'}">
+      <div class="dice__side dice__side--${num} ${this.type === 'monster'? 'dice__side-monster' : 'dice__side-hero'}">
         <p class="dice__num dice__num--${num}">${num}</p>
       </div> 
-      `
-      }).join("")}
     </div>
-  </div>`}).join("")
-
-  
-    console.log(this.diceHtml)
-    
+  </div>`}).join("")  
   }
   
   takeDamage(currentDiceScoreArray) {
     const damage = currentDiceScoreArray.reduce((total,num) => total + num)
     this.health -= damage
+
+    if(this.health <= 0) {
+      this.dead = true
+      this.health = 0
+    }
     
   }
 
