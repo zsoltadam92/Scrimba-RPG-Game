@@ -27,29 +27,34 @@ function attack() {
     setTimeout(() => {
       render()
       isWaiting = false
-    },1000)
-
+      if(wizard.health === 0 || monster.health === 0) {
+        isWaiting = true
+      }
+    },1600)
+    
     if(wizard.dead) {
       endGame()
     } 
     else if(monster.dead) {
       isWaiting = true
       if(monstersArray.length > 0) {
-          setTimeout(() => {
-            monster = getNewMonster()
-            render()
-          },1500)
-        }
-        else {
-          endGame()
-        }
+        setTimeout(() => {
+          monster = getNewMonster()
+          render()
+          isWaiting = false
+        },2300)
+      }
+      else {        
+        endGame()
+      }
     }
   }
+
 }
 
 function endGame() {
   
-  isWaiting = true
+  // isWaiting = true
   const endMessage = wizard.health === 0 && monster.health === 0 ? "No victors - all creatures are dead"
   : wizard.health > 0 ? "The Wizard Wins" 
   : "The monsters are Victorious"
@@ -71,7 +76,7 @@ function endGame() {
     `
     
     document.getElementById('play-button').addEventListener('click', playAgain)
-  }, 2000)
+  }, 2800)
   
 }
 
