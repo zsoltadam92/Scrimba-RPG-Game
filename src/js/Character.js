@@ -84,6 +84,12 @@ class Character {
   </div>
     `
   }
+
+  getNewGame() {
+    this.health = this.maxHealth
+    this.diceHtml = getDiceHtml(this.diceCount,this.type)
+    this.dead = false
+  }
   
 }
 
