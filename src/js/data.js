@@ -1,12 +1,21 @@
 import wizardImg from '../assets/images/wizard.png';
+import gandalfImg from '../assets/images/gandalf.png';
 import orcImg from '../assets/images/orc.png';
 import demonImg from '../assets/images/demon.png';
 import goblinImg from '../assets/images/goblin.png';
 
 const characterData = {
-  hero: {
+  wizard: {
     name: "Wizard",
     avatar: wizardImg,
+    health: 30,
+    diceCount: 2,
+    currentDiceScore: [],
+    type: 'hero'
+  },
+  gandalf: {
+    name: "Gandalf",
+    avatar: gandalfImg,
     health: 50,
     diceCount: 3,
     currentDiceScore: [],

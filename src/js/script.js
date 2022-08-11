@@ -3,43 +3,53 @@ import '../scss/style.scss'
 import characterData from "./data.js";
 import Character from "./Character.js";
 
-const attackButton = document.getElementById('attackButton')
-attackButton.addEventListener('click', attack)
+document.getElementById('attackButton').addEventListener('click', attack)
 
 let isWaiting = false
-let monstersArray = ["orc","demon","goblin"]
 
-function getNewMonster() {
-  const nextMonsterData = characterData[monstersArray.shift()]
-  return nextMonsterData ? new Character(nextMonsterData) : {}
+let heroesArray = ["wizard","gandalf"]
+let monstersArray = ["orc","demon","goblin"]
+function getNewCharacter(charactersArray) {
+  const nextCharacterData = characterData[charactersArray.shift()]
+  return nextCharacterData ? new Character(nextCharacterData) : {}
 }
 
 function attack() {
   if(!isWaiting) {
     isWaiting = true
-    wizard.resetDiceHtml()
+    hero.resetDiceHtml()
     monster.resetDiceHtml()
     render()
-    wizard.setDiceHtml()
+    hero.setDiceHtml()
     monster.setDiceHtml()
-    wizard.takeDamage(monster.currentDiceScore)
-    monster.takeDamage(wizard.currentDiceScore)
+    hero.takeDamage(monster.currentDiceScore)
+    monster.takeDamage(hero.currentDiceScore)
     setTimeout(() => {
       render()
       isWaiting = false
-      if(wizard.health === 0 || monster.health === 0) {
+      if(hero.health === 0 || monster.health === 0) {
         isWaiting = true
       }
     },1600)
     
-    if(wizard.dead) {
-      endGame()
+    if(hero.dead) {
+      isWaiting = true
+      if(heroesArray.length > 0) {
+        setTimeout(() => {
+          hero = getNewCharacter(heroesArray)
+          render()
+          isWaiting = false
+        },2300)
+      }
+      else {        
+        endGame()
+      }
     } 
     else if(monster.dead) {
       isWaiting = true
       if(monstersArray.length > 0) {
         setTimeout(() => {
-          monster = getNewMonster()
+          monster = getNewCharacter(monstersArray)
           render()
           isWaiting = false
         },2300)
@@ -53,13 +63,11 @@ function attack() {
 }
 
 function endGame() {
-  
-  // isWaiting = true
-  const endMessage = wizard.health === 0 && monster.health === 0 ? "No victors - all creatures are dead"
-  : wizard.health > 0 ? "The Wizard Wins" 
+    const endMessage = hero.health === 0 && monster.health === 0 ? "No victors - all creatures are dead"
+  : hero.health > 0 ? "The heroes Wins" 
   : "The monsters are Victorious"
 
-  const endEmoji = wizard.health > 0 ? "🔮" : "☠️"
+  const endEmoji = hero.health > 0 ? "🔮" : "☠️"
   
   setTimeout(() => {
     
@@ -85,7 +93,7 @@ function playAgain() {
   
   document.body.innerHTML = `
   <header>
-  <h1>RPG Game</h1>
+  <h1>Heroes<span>vs</span>Monsters</h1>
 </header>
 <main>
   <section class="cards">
@@ -98,9 +106,11 @@ function playAgain() {
   </section>
 </main>
   `
+  heroesArray = ["wizard","gandalf"]
   monstersArray = ["orc", "demon", "goblin"]
-  monster = getNewMonster()
-  wizard.getNewGame()
+  hero = getNewCharacter(heroesArray)
+  monster = getNewCharacter(monstersArray)
+  hero.getNewGame()
   monster.getNewGame()
   
   document.getElementById('attack-button').addEventListener('click', attack)
@@ -108,17 +118,14 @@ function playAgain() {
   render()
 }
 
-
-
-
 function render() {
   
-  document.getElementById('hero').innerHTML = wizard.getCharacterHtml()
+  document.getElementById('hero').innerHTML = hero.getCharacterHtml()
   document.getElementById('monster').innerHTML = monster.getCharacterHtml()
 }
 
-const wizard = new Character(characterData.hero)
-let monster = getNewMonster()
+let hero = getNewCharacter(heroesArray)
+let monster = getNewCharacter(monstersArray)
 
 render()
 
