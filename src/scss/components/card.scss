@@ -71,6 +71,12 @@
     }
   }
 
+  &__damage {
+    // display: none;
+    color: red;
+    margin-left: rem(20);
+  }
+
   &__health-bar-outer {
     background: #171217;
     height: 1vh;

@@ -10,7 +10,7 @@ class Character {
   
   resetDiceHtml() {
     this.diceHtml = getDiceHtml(this.diceCount,this.type)
-    
+    this.damage = undefined
   }
   
   setDiceHtml() {
@@ -52,6 +52,8 @@ class Character {
       this.dead = true
       this.health = 0
     }
+
+    this.damage = damage
     
   }
 
@@ -74,7 +76,7 @@ class Character {
     <div class="character__card">
     <h4 class="character__name"> ${name} </h4>
     <img class="character__avatar" src="${avatar}" />
-    <div class="character__health">health: <b> ${health} </b> </div>
+    <div class="character__health">health: <b> ${health} </b> <b class="character__damage" style="display: ${this.damage === undefined ? "none" : "inline-block"}"> -${this.damage} </b> </div>
     ${healthBar}
     <div class="character__dice-container ">
     ${diceHtml}

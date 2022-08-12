@@ -85,7 +85,7 @@ function endGame() {
     `
     
     document.getElementById('play-button').addEventListener('click', playAgain)
-  }, 2800)
+  }, 3500)
   
 }
 
