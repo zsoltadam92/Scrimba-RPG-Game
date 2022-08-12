@@ -2,10 +2,11 @@
 
 .character {
   &__card {
-    height:rem(288);
+    height:40vh;
+    // max-height:rem(336);
     // margin-top: rem(8);
     // width:94vw;
-    width:74vw;
+    width:54vw;
     max-width: rem(230);
     padding: 1vh 1vw;
     font-size: rem(25);
@@ -39,6 +40,7 @@
 
   &__avatar {
     width: 15vh;
+    height: 15vh;
     border: rem(2) solid $card-border;
     max-width:100%;
     opacity: 0.8;
@@ -47,6 +49,7 @@
     
     @include breakpoints_up(rem(550)) {
       width: 25vh;
+      height: 25vh;
     }
   }
 

@@ -7,7 +7,7 @@ document.getElementById('attackButton').addEventListener('click', attack)
 
 let isWaiting = false
 
-let heroesArray = ["wizard","gandalf"]
+let heroesArray = ["knight","wizard"]
 let monstersArray = ["orc","demon","goblin"]
 function getNewCharacter(charactersArray) {
   const nextCharacterData = characterData[charactersArray.shift()]
@@ -31,6 +31,7 @@ function attack() {
         isWaiting = true
       }
     },1600)
+
     
     if(hero.dead) {
       isWaiting = true
@@ -106,7 +107,7 @@ function playAgain() {
   </section>
 </main>
   `
-  heroesArray = ["wizard","gandalf"]
+  heroesArray = ["knight","wizard"]
   monstersArray = ["orc", "demon", "goblin"]
   hero = getNewCharacter(heroesArray)
   monster = getNewCharacter(monstersArray)
@@ -117,6 +118,7 @@ function playAgain() {
 
   render()
 }
+
 
 function render() {
   

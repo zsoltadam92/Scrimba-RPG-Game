@@ -69,14 +69,12 @@ class Character {
   getCharacterHtml() {
     const {name, avatar, health,diceHtml} = this
     const healthBar = this.getHealthBarHtml()
-    // const diceHtml =  getDiceHtml(this.diceCount)
-
-
+    
     return `
     <div class="character__card">
     <h4 class="character__name"> ${name} </h4>
     <img class="character__avatar" src="${avatar}" />
-    <div class="character__health">health: <b> ${health} </b></div>
+    <div class="character__health">health: <b> ${health} </b> </div>
     ${healthBar}
     <div class="character__dice-container ">
     ${diceHtml}
