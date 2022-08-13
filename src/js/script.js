@@ -24,6 +24,8 @@ function attack() {
     monster.setDiceHtml()
     hero.takeDamage(monster.currentDiceScore)
     monster.takeDamage(hero.currentDiceScore)
+    hero.loadAction()
+    monster.loadAction()
     setTimeout(() => {
       render()
       isWaiting = false

@@ -6,6 +6,8 @@ class Character {
     Object.assign(this,data)
     this.maxHealth = this.health
     this.diceHtml = getDiceHtml(this.diceCount,this.type)
+    this.fullLoad = 20
+    this.shieldLoad = 0
   }
   
   resetDiceHtml() {
@@ -45,16 +47,55 @@ class Character {
   }
   
   takeDamage(currentDiceScoreArray) {
-    const damage = currentDiceScoreArray.reduce((total,num) => total + num)
-    this.health -= damage
+    let damage = currentDiceScoreArray.reduce((total,num) => total + num)
+    
+    this.shieldLoad += damage * 0.9
 
-    if(this.health <= 0) {
-      this.dead = true
-      this.health = 0
+    if(this.shieldLoad >= this.fullLoad) {
+      damage = 0
+      this.health -= 0
+      // this.shieldLoad = 20 
+      setTimeout(() => this.shieldLoad = 0, 2000)
+      
+    } else {
+      this.health -= damage
+
+      if(this.health <= 0) {
+        this.dead = true
+        this.health = 0
+      }
     }
 
     this.damage = damage
     
+  }
+
+
+  loadAction(damage) {
+  
+    const shieldPercent = calcPercent(this.shieldLoad,this.fullLoad)
+
+    return `
+    <div class="character__actions">
+      <div class="character__double-attack">
+      <div class="character__double-attack-content">
+        2X
+      </div>
+        <div class="character__double-attack-load" ">
+          
+        </div>
+      </div>
+      <div class="character__shield" style="transform: ${shieldPercent >= 100 ? 'scale(1.2); ' : 'scale(1);'}">
+        <div class="character__shield-content">
+          DEF
+        </div>
+        <div class="character__shield-load" style="height: ${shieldPercent}%;">
+          
+        </div>
+      </div>
+    </div>
+    `
+
   }
 
   getHealthBarHtml() {
@@ -71,6 +112,7 @@ class Character {
   getCharacterHtml() {
     const {name, avatar, health,diceHtml} = this
     const healthBar = this.getHealthBarHtml()
+    const actions = this.loadAction()
     
     return `
     <div class="character__card">
@@ -78,6 +120,7 @@ class Character {
     <img class="character__avatar" src="${avatar}" />
     <div class="character__health">health: <b> ${health} </b> <b class="character__damage" style="display: ${this.damage === undefined ? "none" : "inline-block"}"> -${this.damage} </b> </div>
     ${healthBar}
+    ${actions}
     <div class="character__dice-container ">
     ${diceHtml}
     </div>

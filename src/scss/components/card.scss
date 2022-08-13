@@ -3,9 +3,6 @@
 .character {
   &__card {
     height:40vh;
-    // max-height:rem(336);
-    // margin-top: rem(8);
-    // width:94vw;
     width:54vw;
     max-width: rem(230);
     padding: 1vh 1vw;
@@ -20,7 +17,7 @@
 
     @include breakpoints_up(rem(550)) {
       border: 0.2rem solid $card-border;
-      height:30rem;
+      height:33rem;
       width:37vw;
       max-width: rem(250);
     }
@@ -95,6 +92,17 @@
     }
   }
 
+  &__actions {
+    display: flex;
+    justify-content: space-evenly;
+    margin: rem(15) 0;
+  }
+
+  @include actions(double-attack);
+  @include actions(shield);
+
+  
+
   &__dice-container {
     width:100%;
     height: 20%;
@@ -112,7 +120,7 @@
 
     
     @include breakpoints_up(rem(550)) {
-        height: 25%;
+        height: 22%;
         border-bottom-left-radius: 3px;
         border-bottom-right-radius: 3px;
     }
