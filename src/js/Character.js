@@ -8,6 +8,7 @@ class Character {
     this.diceHtml = getDiceHtml(this.diceCount,this.type)
     this.fullLoad = 20
     this.shieldLoad = 0
+    this.doubleAttackLoad = 0
   }
   
   resetDiceHtml() {
@@ -46,15 +47,16 @@ class Character {
   </div>`}).join("")  
   }
   
-  takeDamage(currentDiceScoreArray) {
+  takeDamage(currentDiceScoreArray,ownDiceScoreArray,hero,monster) {
     let damage = currentDiceScoreArray.reduce((total,num) => total + num)
+    let sumAttack = ownDiceScoreArray.reduce((total,num) => total + num)
     
-    this.shieldLoad += damage * 0.9
+    this.shieldLoad += damage * 0.7
+    this.doubleAttackLoad += sumAttack 
 
     if(this.shieldLoad >= this.fullLoad) {
-      damage = 0
+      damage = 'shield'
       this.health -= 0
-      // this.shieldLoad = 20 
       setTimeout(() => this.shieldLoad = 0, 2000)
       
     } else {
@@ -66,22 +68,25 @@ class Character {
       }
     }
 
+   
     this.damage = damage
+    this.sumAttack =sumAttack
     
   }
 
 
-  loadAction(damage) {
+  loadAction() {
   
     const shieldPercent = calcPercent(this.shieldLoad,this.fullLoad)
+    const doubleAttackPercent = calcPercent(this.doubleAttackLoad,this.fullLoad)
 
     return `
     <div class="character__actions">
-      <div class="character__double-attack">
+      <div class="character__double-attack" style="transform: ${doubleAttackPercent >= 100 ? 'scale(1.2); ' : 'scale(1);'}">
       <div class="character__double-attack-content">
         2X
       </div>
-        <div class="character__double-attack-load" ">
+        <div class="character__double-attack-load"  style="height: ${doubleAttackPercent}%;">
           
         </div>
       </div>

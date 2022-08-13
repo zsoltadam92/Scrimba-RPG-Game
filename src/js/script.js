@@ -22,8 +22,57 @@ function attack() {
     render()
     hero.setDiceHtml()
     monster.setDiceHtml()
-    hero.takeDamage(monster.currentDiceScore)
-    monster.takeDamage(hero.currentDiceScore)
+    hero.takeDamage(monster.currentDiceScore,hero.currentDiceScore)
+    monster.takeDamage(hero.currentDiceScore,monster.currentDiceScore)
+    if(hero.doubleAttackLoad >= hero.fullLoad && monster.shieldLoad < monster.fullLoad && monster.doubleAttackLoad >= monster.fullLoad && hero.shieldLoad < hero.fullLoad){
+      monster.health -= hero.sumAttack * 2
+      monster.damage = hero.sumAttack * 2
+      setTimeout(() => hero.doubleAttackLoad = 0, 2000)
+
+      if(monster.health <= 0) {
+        monster.dead = true
+        monster.health = 0
+      } 
+
+      hero.health -= monster.sumAttack *2
+      hero.damage = monster.sumAttack *2
+      setTimeout(() => monster.doubleAttackLoad = 0, 2000)
+
+      if(hero.health <= 0) {
+        hero.dead = true
+        hero.health = 0
+      } 
+    } 
+
+    if(hero.doubleAttackLoad >= hero.fullLoad && monster.shieldLoad < monster.fullLoad) {
+      monster.health -= hero.sumAttack * 2
+      monster.damage = hero.sumAttack * 2
+      setTimeout(() => hero.doubleAttackLoad = 0, 2000)
+
+      if(monster.health <= 0) {
+        monster.dead = true
+        monster.health = 0
+      } 
+    } else if (hero.doubleAttackLoad >= hero.fullLoad && monster.shieldLoad >= monster.fullLoad){
+      monster.health -= 0
+      setTimeout(() => hero.doubleAttackLoad = 0, 2000)
+      monster.damage = 0
+    }
+    if(monster.doubleAttackLoad >= monster.fullLoad && hero.shieldLoad < hero.fullLoad) {
+      hero.health -= monster.sumAttack *2
+      hero.damage = monster.sumAttack *2
+      setTimeout(() => monster.doubleAttackLoad = 0, 2000)
+
+      if(hero.health <= 0) {
+        hero.dead = true
+        hero.health = 0
+      } 
+
+    } else if(monster.doubleAttackLoad >= monster.fullLoad && hero.shieldLoad >= hero.fullLoad) {
+      hero.health -= 0
+      setTimeout(() => monster.doubleAttackLoad = 0, 2000)
+      hero.damage = 0
+    }
     hero.loadAction()
     monster.loadAction()
     setTimeout(() => {
