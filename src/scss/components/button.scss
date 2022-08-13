@@ -1,7 +1,7 @@
 @use '../util' as *;
 
 button {
-  margin-top: rem(8);
+  margin: rem(16) 0;
   font-family: 'MedievalSharp', cursive;
   background-color: #fcc02a;
   border: rem(2) solid #963404;

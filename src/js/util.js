@@ -6,7 +6,7 @@ function getDiceHtml(diceCount, type) {
   return new Array(diceCount).fill(0).map(() =>{
     return    `
     <div class="panel">
-      <div class="dice  ${type === 'monster'? 'dice-monster' : 'dice-hero'}" style="transform: translateZ(-100px) rotateY(0deg) rotateX(90deg)";>
+      <div class="dice  ${type === 'monster'? 'dice-monster' : 'dice-hero'}" style="transform: translateZ(-100px) rotateY(-45deg) rotateX(-45deg)";>
         ${new Array(6).fill(0).map((_,index) => {
           return ` <div class="dice__side dice__side--${index + 1} ${type === 'monster'? 'dice__side-monster' : 'dice__side-hero'}">
           <p class="dice__num dice__num--${index + 1}">${index + 1}</p>
