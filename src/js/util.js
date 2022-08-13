@@ -53,4 +53,31 @@ function rollDice(diceType,currentDiceScore) {
   })  
 }
 
-export {calcPercent,getDiceHtml,getDiceRollArray, rollDice,}
+function doubleAttackWithoutShield(player1, player2) {
+  player2.health -= player1.sumAttack * 2
+  player2.damage = player1.sumAttack * 2
+  setTimeout(() => player1.doubleAttackLoad = 0, 2000) 
+
+  if(player1.health <= 0 && player2.health <= 0) {
+    player2.dead = true
+    player2.health = 0
+
+    player1.dead = true
+    player1.health = 0
+
+  } else if(player1.health <= 0) {
+    player1.dead = true
+    player1.health = 0
+  } else if(player2.health <= 0) {
+    player2.dead = true
+    player2.health = 0
+  } 
+}
+
+function doubleAttackWithShield(player1, player2) {
+  player2.health -= 0
+  setTimeout(() => player1.doubleAttackLoad = 0, 2000)
+  player2.damage = 0
+}
+
+export {calcPercent,getDiceHtml,getDiceRollArray, rollDice,doubleAttackWithShield,doubleAttackWithoutShield}

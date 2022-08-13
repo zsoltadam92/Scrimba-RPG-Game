@@ -2,11 +2,9 @@
 
 
 .panel {
-  border-radius: 10px;
+  border-radius: rem(10);
   @include smallDice();
-  perspective: 400px;
-  // margin: 4px;
-  
+  perspective: 400px;  
   
   @include breakpoints_up(rem(550)) {
     @include bigDice();
@@ -31,7 +29,7 @@
     @include smallDice();
     position: absolute;
     background-color: green;
-    border-radius: 5px;
+    border-radius: rem(5);
     line-height: 5.5vh;
     
     @include breakpoints_up(rem(550)) {

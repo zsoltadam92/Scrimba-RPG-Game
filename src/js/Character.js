@@ -47,8 +47,8 @@ class Character {
   </div>`}).join("")  
   }
   
-  takeDamage(currentDiceScoreArray,ownDiceScoreArray,hero,monster) {
-    let damage = currentDiceScoreArray.reduce((total,num) => total + num)
+  takeDamage(opponentDiceScoreArray,ownDiceScoreArray) {
+    let damage = opponentDiceScoreArray.reduce((total,num) => total + num)
     let sumAttack = ownDiceScoreArray.reduce((total,num) => total + num)
     
     this.shieldLoad += damage * 0.7
@@ -68,10 +68,8 @@ class Character {
       }
     }
 
-   
     this.damage = damage
     this.sumAttack =sumAttack
-    
   }
 
 
@@ -138,7 +136,6 @@ class Character {
     this.diceHtml = getDiceHtml(this.diceCount,this.type)
     this.dead = false
   }
-  
 }
 
 export default Character;

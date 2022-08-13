@@ -30,21 +30,33 @@
 
 @mixin actions($action) {
   &__#{$action} {
-    width: rem(50);
-    height: rem(50);
+    width: rem(40);
+    height: rem(40);
     border: rem(2) solid #fff;
     border-radius: 50%;
     padding: rem(5);
     position: relative;
     overflow: hidden;
+
+    @include breakpoints_up(rem(550)) {
+      width: rem(50);
+      height: rem(50);
+    }
   }
 
   &__#{$action}-content {
     position: absolute;
-    top: 8px;
+    top: rem(10);
     left: 0;
     right: 0;
     z-index: 2;
+    font-size: 16px;
+
+    
+    @include breakpoints_up(rem(550)) {
+      top: rem(11);
+      font-size: rem(24);
+    }
   }
 
   &__#{$action}-load {

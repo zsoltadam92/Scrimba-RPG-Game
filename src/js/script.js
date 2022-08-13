@@ -2,6 +2,7 @@ import '../scss/style.scss'
 
 import characterData from "./data.js";
 import Character from "./Character.js";
+import { doubleAttackWithoutShield, doubleAttackWithShield } from './util';
 
 document.getElementById('attackButton').addEventListener('click', attack)
 
@@ -24,55 +25,20 @@ function attack() {
     monster.setDiceHtml()
     hero.takeDamage(monster.currentDiceScore,hero.currentDiceScore)
     monster.takeDamage(hero.currentDiceScore,monster.currentDiceScore)
+    
     if(hero.doubleAttackLoad >= hero.fullLoad && monster.shieldLoad < monster.fullLoad && monster.doubleAttackLoad >= monster.fullLoad && hero.shieldLoad < hero.fullLoad){
-      monster.health -= hero.sumAttack * 2
-      monster.damage = hero.sumAttack * 2
-      setTimeout(() => hero.doubleAttackLoad = 0, 2000)
-
-      if(monster.health <= 0) {
-        monster.dead = true
-        monster.health = 0
-      } 
-
-      hero.health -= monster.sumAttack *2
-      hero.damage = monster.sumAttack *2
-      setTimeout(() => monster.doubleAttackLoad = 0, 2000)
-
-      if(hero.health <= 0) {
-        hero.dead = true
-        hero.health = 0
-      } 
-    } 
-
-    if(hero.doubleAttackLoad >= hero.fullLoad && monster.shieldLoad < monster.fullLoad) {
-      monster.health -= hero.sumAttack * 2
-      monster.damage = hero.sumAttack * 2
-      setTimeout(() => hero.doubleAttackLoad = 0, 2000)
-
-      if(monster.health <= 0) {
-        monster.dead = true
-        monster.health = 0
-      } 
+      doubleAttackWithoutShield(hero, monster)
+      doubleAttackWithoutShield(monster,hero)
+    } else if(hero.doubleAttackLoad >= hero.fullLoad && monster.shieldLoad < monster.fullLoad) {
+      doubleAttackWithoutShield(hero, monster)
     } else if (hero.doubleAttackLoad >= hero.fullLoad && monster.shieldLoad >= monster.fullLoad){
-      monster.health -= 0
-      setTimeout(() => hero.doubleAttackLoad = 0, 2000)
-      monster.damage = 0
-    }
-    if(monster.doubleAttackLoad >= monster.fullLoad && hero.shieldLoad < hero.fullLoad) {
-      hero.health -= monster.sumAttack *2
-      hero.damage = monster.sumAttack *2
-      setTimeout(() => monster.doubleAttackLoad = 0, 2000)
-
-      if(hero.health <= 0) {
-        hero.dead = true
-        hero.health = 0
-      } 
-
+      doubleAttackWithShield(hero, monster)
+    } else if(monster.doubleAttackLoad >= monster.fullLoad && hero.shieldLoad < hero.fullLoad) {
+      doubleAttackWithoutShield(monster,hero)
     } else if(monster.doubleAttackLoad >= monster.fullLoad && hero.shieldLoad >= hero.fullLoad) {
-      hero.health -= 0
-      setTimeout(() => monster.doubleAttackLoad = 0, 2000)
-      hero.damage = 0
+      doubleAttackWithShield(monster, hero)
     }
+
     hero.loadAction()
     monster.loadAction()
     setTimeout(() => {
@@ -83,15 +49,39 @@ function attack() {
       }
     },1600)
 
-    
-    if(hero.dead) {
+    if(hero.dead && monster.dead) {
+      isWaiting = true
+
+      if(heroesArray.length > 0) {
+        setTimeout(() => {
+          hero = getNewCharacter(heroesArray)
+          render()
+          isWaiting = false
+        },3500)
+      }  else {        
+        endGame()
+      }
+
+      if(monstersArray.length > 0) {
+        setTimeout(() => {
+          monster = getNewCharacter(monstersArray)
+          render()
+          isWaiting = false
+        },3500)
+      }
+      else {        
+        endGame()
+      }
+    }
+
+    else if(hero.dead) {
       isWaiting = true
       if(heroesArray.length > 0) {
         setTimeout(() => {
           hero = getNewCharacter(heroesArray)
           render()
           isWaiting = false
-        },2300)
+        },3500)
       }
       else {        
         endGame()
@@ -104,7 +94,7 @@ function attack() {
           monster = getNewCharacter(monstersArray)
           render()
           isWaiting = false
-        },2300)
+        },3500)
       }
       else {        
         endGame()
@@ -116,13 +106,12 @@ function attack() {
 
 function endGame() {
     const endMessage = hero.health === 0 && monster.health === 0 ? "No victors - all creatures are dead"
-  : hero.health > 0 ? "The heroes Wins" 
+  : hero.health > 0 ? "The heroes are Victorious" 
   : "The monsters are Victorious"
 
   const endEmoji = hero.health > 0 ? "🔮" : "☠️"
   
   setTimeout(() => {
-    
     document.body.innerHTML = `
     <div class="end-game">
     <h2>Game Over</h2> 
@@ -134,10 +123,8 @@ function endGame() {
     <button id="play-button">Play again</button>
     </section>
     `
-    
     document.getElementById('play-button').addEventListener('click', playAgain)
-  }, 3500)
-  
+  }, 5000)
 }
 
 function playAgain() {
@@ -172,7 +159,6 @@ function playAgain() {
 
 
 function render() {
-  
   document.getElementById('hero').innerHTML = hero.getCharacterHtml()
   document.getElementById('monster').innerHTML = monster.getCharacterHtml()
 }

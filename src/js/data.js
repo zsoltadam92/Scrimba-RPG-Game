@@ -16,7 +16,7 @@ const characterData = {
   wizard: {
     name: "Wizard",
     avatar: wizardImg,
-    health: 30,
+    health: 60,
     diceCount: 3,
     currentDiceScore: [],
     type: 'hero'
@@ -24,7 +24,7 @@ const characterData = {
   orc: {
     name: "Orc",
     avatar: orcImg,
-    health: 30,
+    health: 50,
     diceCount: 1,
     currentDiceScore: [],
     type: 'monster'
@@ -32,7 +32,7 @@ const characterData = {
   demon: {
     name: "Demon",
     avatar: demonImg,
-    health: 25,
+    health: 40,
     diceCount: 2,
     currentDiceScore: [],
     type: 'monster'
@@ -40,7 +40,7 @@ const characterData = {
   goblin: {
     name: "Goblin",
     avatar: goblinImg,
-    health: 20,
+    health: 40,
     diceCount: 3,
     currentDiceScore: [],
     type: 'monster'
